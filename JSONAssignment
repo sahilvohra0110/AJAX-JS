@@ -1,0 +1,26 @@
+<div class="title"> Population</div>
+    <label for="country">Enter country name</label>
+    <input type="text" name="country" id="country">
+    <button onclick="getpop()">Search</button>
+    <div class="result"> </div>
+
+
+JS part--
+
+function getpop(){
+        var countryName=document.querySelector("#country").value
+        var result=document.querySelector(".result")
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', `https://restcountries.com/v2/name/${countryName}?fullText=true`, true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                const data = JSON.parse(xhr.responseText);
+               result.innerHTML=(data[0].population);
+            } else if (xhr.status === 404) {
+               result.innerHTML="Country not found"
+            }
+        }
+    };
+    xhr.send();
+}
